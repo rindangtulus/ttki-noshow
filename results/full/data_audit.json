@@ -1,0 +1,33 @@
+{
+  "n_rows": 110527,
+  "n_columns": 14,
+  "missing_cells": 0,
+  "duplicate_rows": 0,
+  "duplicate_appointment_id": 0,
+  "n_unique_patients": 62299,
+  "no_show_yes_rate": 0.20193255946510807,
+  "target_values": {
+    "no": 88208,
+    "yes": 22319
+  },
+  "age_min": -1,
+  "age_max": 115,
+  "n_age_negative": 1,
+  "n_age_above_max": 5,
+  "handicap_value_counts": {
+    "0": 108286,
+    "1": 2042,
+    "2": 183,
+    "3": 13,
+    "4": 3
+  },
+  "n_negative_waiting_days": 5,
+  "waiting_days_min": -6,
+  "waiting_days_max": 179,
+  "n_unparseable_dates": 0,
+  "appointment_date_min": "2016-04-29",
+  "appointment_date_max": "2016-06-08",
+  "n_appointment_dates": 27,
+  "n_neighbourhoods": 81,
+  "patients_with_multiple_appointments": 24379
+}

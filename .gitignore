@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+# Dataset Kaggle JANGAN di-commit (tautan saja, lihat data/README.md)
+data/raw/
+*.csv.zip
+# Kredensial -- JANGAN PERNAH di-commit
+kaggle.json
+.env

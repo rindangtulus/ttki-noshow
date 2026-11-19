@@ -1,0 +1,9 @@
+{
+  "rows_in": 110527,
+  "dropped_bad_target_or_date": 0,
+  "dropped_invalid_age": 6,
+  "dropped_negative_waiting": 5,
+  "dropped_duplicate_appointment_id": 0,
+  "rows_out": 110516,
+  "no_show_rate_after_cleaning": 0.20188027073003004
+}
