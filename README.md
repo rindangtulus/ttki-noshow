@@ -12,7 +12,10 @@ Berkas di `results/` dan `figures/` dihasilkan dengan menjalankan skrip pada CSV
 - [x] `pytest -q` lulus (6 tes)
 - [x] `python -m src.run_experiments ...` dijalankan pada CSV asli (`full` dan `no_proxy`)
 - [x] Gambar dibuat (`figures/`)
-- [ ] Paper diisi dari `results/` dan diekspor ke PDF
+- [x] Draf naskah tersedia di `paper/` (DOCX/PDF); angka di naskah harus dicocokkan ulang dengan `results/`
+- [ ] Revisi sesuai review: belum ada reviewer; `RESPONSE_TO_REVIEW.md` baru diisi jika ada komentar
+- [ ] Verifikasi manual referensi: lihat `references/TODO_verifikasi.md` (L1, L4, L13, L14)
+- [ ] Pembagian kontribusi diisi: lihat `CONTRIBUTIONS.md`
 
 ## Sumber data
 - Dataset: *Medical Appointment No Shows*, pemilik Kaggle `joniarroba`: https://www.kaggle.com/datasets/joniarroba/noshowappointments
@@ -23,7 +26,10 @@ Berkas di `results/` dan `figures/` dihasilkan dengan menjalankan skrip pada CSV
 Run yang dicatat di `results/*/run_config.json` memakai:
 - OS: Windows 11 (10.0.26200)
 - Python 3.13.9
-- Versi paket persisnya ada di `environment-freeze.txt` (mis. numpy 2.5.5, pandas 3.1.1, scikit-learn 1.9.1, matplotlib 3.11.2). Batas minimum ada di `requirements.txt`.
+- Versi paket persisnya ada di `environment-freeze.txt` (mis. numpy 2.5.5, pandas 3.1.1, scikit-learn 1.9.1, matplotlib 3.11.2). Batas minimum ada di `requirements.txt`. Berkas ini adalah freeze dari run yang dipakai; **jangan ditimpa** ulang.
+
+### Catatan tentang `git_commit` di `run_config.json`
+Field `git_commit` di `results/*/run_config.json` (`b7a2e9cfaf165ee462d9c9a4b99dc953bc0ab4c0`) **tidak ada di riwayat branch repo ini** (bukan leluhur HEAD; `git log --all` hanya menampilkan `911190c` dan `9083bfe`). Hash itu karenanya **bukan bukti reprodusibilitas persis**. Rujukan reprodusibilitas yang dipakai adalah `src/config.py`, `environment-freeze.txt`, checksum CSV di `data/README.md`, dan isi `run_config.json` lainnya. Berkas `run_config.json` sengaja tidak diedit.
 
 ## Seed dan split
 - Seed utama `SEED = 42`; Random Forest diulang pada seed `42, 43, 44, 45, 46`; cluster bootstrap 500 kali (semuanya di `src/config.py`).
@@ -39,7 +45,6 @@ cd ttki-noshow
 python -m venv .venv
 # Windows: .venv\Scripts\activate    |  Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
-python -m pip freeze > environment-freeze.txt
 
 pytest -q                                            # uji anti-leakage + smoke test (data dummy)
 
@@ -69,17 +74,21 @@ Catatan teoretis yang perlu dibahas di paper: kalibrasi sigmoid (Platt) bersifat
 
 ## Struktur
 ```
-src/            config, data (audit+bersih), features, splits, models (+kalibrator), metrics, run_experiments, make_figures
-tests/          uji anti-leakage, split, kalibrator, metrik, smoke test (tests/synthetic_fixture.py = DATA DUMMY, bukan untuk paper)
-data/README.md  provenance Kaggle (CSV tidak di-commit)
-results/<fs>/   data_audit.json, cleaning_log.json, split_summary.csv, daily_summary.csv, metrics_primary.csv,
-                metrics_all_seeds.csv, metrics_seed_summary.csv, paired_deltas.csv, thresholds.csv,
-                test_predictions.csv, run_config.json
-figures/        gambar untuk paper
-references/     literature_matrix.csv
-paper/          naskah (DOCX/PDF)
-environment-freeze.txt   versi Python dan paket dari run yang dipakai
-notebooks/      (belum ada notebook; semua analisis dijalankan lewat `src/`)
+README.md, LICENSE, requirements.txt
+environment-freeze.txt   versi Python dan paket dari run yang dipakai (jangan ditimpa)
+RESPONSE_TO_REVIEW.md    tabel tanggapan reviewer (placeholder [ISI: ...])
+CONTRIBUTIONS.md         pembagian kontribusi + pernyataan kejujuran akademik (placeholder [ISI: ...])
+src/            __init__, config, data (audit+bersih), features, splits, models (+kalibrator), metrics, run_experiments, make_figures
+tests/          test_pipeline.py (uji anti-leakage, split, kalibrator, metrik, smoke test);
+                synthetic_fixture.py = DATA DUMMY, bukan untuk paper
+data/README.md  provenance Kaggle (CSV di data/raw/ tidak di-commit)
+results/<fs>/   (fs = full, no_proxy) data_audit.json, cleaning_log.json, split_summary.csv, daily_summary.csv,
+                metrics_primary.csv, metrics_all_seeds.csv, metrics_seed_summary.csv, paired_deltas.csv,
+                thresholds.csv, test_predictions.csv, run_config.json
+figures/        fig_reliability, fig_precision_at_k, fig_capacity_deviation, fig_daily_no_show_rate (.png)
+references/     literature_matrix.csv (tidak diubah), TODO_verifikasi.md
+paper/          naskah (DOCX/PDF) dan response_to_review.md (templat awal)
+notebooks/      kosong; semua analisis dijalankan lewat `src/`
 ```
 
 ## Alur (Mermaid)
