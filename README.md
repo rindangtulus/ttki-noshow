@@ -5,14 +5,32 @@ Repositori eksperimen untuk tugas TTKI (PENS, Semester 5, Topik **P5 — Health 
 > **Pertanyaan penelitian.** Apakah optimasi threshold dan kalibrasi probabilitas meningkatkan kualitas prioritisasi pasien berisiko no-show pada kapasitas pengingat 10%?
 
 Seluruh angka pada paper wajib berasal dari berkas di `results/` yang dihasilkan skrip repo ini dari **CSV Kaggle asli**.
-Repo ini **tidak berisi hasil apa pun** sampai Anda menjalankannya.
+Berkas di `results/` dan `figures/` dihasilkan dengan menjalankan skrip pada CSV Kaggle asli (lihat "Environment" dan `results/*/run_config.json`).
 
 ## Status
-- [ ] CSV Kaggle diunduh, `data/README.md` terisi (tanggal, checksum, lisensi)
-- [ ] `pytest -q` lulus
-- [ ] `python -m src.run_experiments ...` dijalankan pada CSV asli
-- [ ] Gambar dibuat, paper diisi dari `results/`
-- [ ] Tag rilis final: `v1.0-final`
+- [x] CSV Kaggle diunduh (2026-11-19) dan checksum dicatat di `data/README.md`
+- [x] `pytest -q` lulus (6 tes)
+- [x] `python -m src.run_experiments ...` dijalankan pada CSV asli (`full` dan `no_proxy`)
+- [x] Gambar dibuat (`figures/`)
+- [ ] Paper diisi dari `results/` dan diekspor ke PDF
+
+## Sumber data
+- Dataset: *Medical Appointment No Shows*, pemilik Kaggle `joniarroba`: https://www.kaggle.com/datasets/joniarroba/noshowappointments
+- Berkas: `KaggleV2-May-2016.csv` (10.739.535 byte, SHA-256 `9132d3e7d0246617df9041d3764f20ad6f08e7b0d9f0997fa254fc5e52eda27d`), diunduh 2026-11-19.
+- CSV **tidak** di-commit. Cara unduh, kamus kolom, dan lisensi: lihat `data/README.md`.
+
+## Environment
+Run yang dicatat di `results/*/run_config.json` memakai:
+- OS: Windows 11 (10.0.26200)
+- Python 3.13.9
+- Versi paket persisnya ada di `environment-freeze.txt` (mis. numpy 2.5.5, pandas 3.1.1, scikit-learn 1.9.1, matplotlib 3.11.2). Batas minimum ada di `requirements.txt`.
+
+## Seed dan split
+- Seed utama `SEED = 42`; Random Forest diulang pada seed `42, 43, 44, 45, 46`; cluster bootstrap 500 kali (semuanya di `src/config.py`).
+- Split kronologis menurut tanggal janji temu: train 60% / calibration 10% / validation 15% / test 15%. Persentase aktual ada di `results/<fs>/split_summary.csv`.
+
+## Output yang diharapkan
+Setelah menjalankan perintah di bagian "Menjalankan", `results/full/` dan `results/no_proxy/` berisi berkas yang tercantum di bagian "Struktur", dan `figures/` berisi empat gambar (`fig_reliability`, `fig_precision_at_k`, `fig_capacity_deviation`, `fig_daily_no_show_rate`). Angka bisa berbeda sangat kecil antar platform atau versi paket; bandingkan dengan `run_config.json`.
 
 ## Menjalankan
 ```bash
@@ -59,7 +77,9 @@ results/<fs>/   data_audit.json, cleaning_log.json, split_summary.csv, daily_sum
                 test_predictions.csv, run_config.json
 figures/        gambar untuk paper
 references/     literature_matrix.csv
-paper/          naskah (DOCX/LaTeX) + response_to_review
+paper/          naskah (DOCX/PDF)
+environment-freeze.txt   versi Python dan paket dari run yang dipakai
+notebooks/      (belum ada notebook; semua analisis dijalankan lewat `src/`)
 ```
 
 ## Alur (Mermaid)

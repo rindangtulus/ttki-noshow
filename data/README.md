@@ -7,9 +7,9 @@ CSV **tidak** di-commit ke repo. Unduh sendiri, lalu isi tabel provenance di baw
 | Nama dataset | Medical Appointment No Shows |
 | Pemilik di Kaggle | `joniarroba` |
 | URL | https://www.kaggle.com/datasets/joniarroba/noshowappointments |
-| Tanggal unduh | **[ISI: yyyy-mm-dd]** |
-| Versi/berkas | **[ISI: mis. KaggleV2-May-2016.csv, ukuran file, checksum SHA-256]** |
-| Lisensi di halaman Kaggle | **[ISI: salin persis dari halaman Kaggle saat diunduh]** (salinan OpenML dataset ini mencantumkan CC BY-NC-SA 4.0 — cocokkan dengan Kaggle, jangan diasumsikan) |
+| Tanggal unduh | 2026-11-19 |
+| Versi/berkas | `KaggleV2-May-2016.csv`, 10.739.535 byte, SHA-256 `9132d3e7d0246617df9041d3764f20ad6f08e7b0d9f0997fa254fc5e52eda27d` (diverifikasi 2026-11-19) |
+| Lisensi di halaman Kaggle | CC BY-NC-SA 4.0 (dicek di halaman Kaggle pada 2026-11-25) |
 | Asal data primer | Janji temu rumah sakit publik di Vitória, Espírito Santo, Brasil (menurut deskripsi dataset dan Salazar et al., 2022) |
 | Unit observasi | 1 baris = 1 janji temu |
 | Target | `No-show`: `Yes` = pasien **TIDAK hadir** (kelas positif = no-show) |
@@ -49,5 +49,5 @@ umur negatif / sangat besar, `waiting_days` negatif, nilai `Handcap` > 1, duplik
 - File: `KaggleV2-May-2016.csv` (10.739.535 byte), 110.527 baris, 14 kolom
 - SHA-256: `9132d3e7d0246617df9041d3764f20ad6f08e7b0d9f0997fa254fc5e52eda27d`
 - Sumber: https://www.kaggle.com/datasets/joniarroba/noshowappointments
-- Tanggal unduh: [ISI]  |  Lisensi (salin dari halaman Kaggle): [ISI]
+- Tanggal unduh: 2026-11-19  |  Lisensi : CC BY-NC-SA 4.0
 - File ini tidak di-commit (`data/raw/` ada di `.gitignore`); jalankan `python -m src.run_experiments --data data/raw/KaggleV2-May-2016.csv`.
