@@ -23,7 +23,7 @@ Di repo istilah ini ditulis "kalibrasi isotonik" (`README.md:67`) dan memakai `I
 Contoh: `IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip")` (`src/models.py:53`).
 
 ## ECE
-Expected calibration error, yaitu rata-rata selisih antara probabilitas prediksi dan proporsi no-show sebenarnya pada bin kuantil; di repo memakai 10 bin (`src/config.py:18`, `src/metrics.py:82-85`).
+Expected calibration error, yaitu rata-rata berbobot per kelompok skor (bin kuantil, bobot = jumlah janji temu di kelompok itu) dari selisih mutlak antara rata-rata probabilitas prediksi dan proporsi no-show sebenarnya; di repo memakai 10 bin (`src/config.py:18`, `src/metrics.py:82-85`).
 Contoh: `expected_calibration_error(y, p, 10)` (`src/metrics.py:82`).
 
 ## Brier
