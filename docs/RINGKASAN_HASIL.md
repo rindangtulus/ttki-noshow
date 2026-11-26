@@ -1,6 +1,6 @@
 # Ringkasan hasil untuk orang awam
 
-Semua angka di bawah dibaca dari berkas CSV di `results/full/` dan `results/no_proxy/`. Angka dibulatkan dari nilai asli; path dan kolom sumbernya ditulis di setiap baris atau tabel.
+Semua angka di bawah dibaca dari berkas CSV di `results/full/` dan `results/no_proxy/`. Angka dibulatkan dari nilai asli; path dan kolom sumbernya ditulis di setiap baris atau tabel. Angka `RF` di `metrics_primary.csv` berasal dari seed 42 saja; hasil lima seed `RF` (rata-rata dan simpangan) ada di `results/full/metrics_seed_summary.csv` dan `results/no_proxy/metrics_seed_summary.csv`.
 
 ## Apa yang diuji
 
@@ -64,7 +64,7 @@ Selisih berpasangan (kolom `delta`, `ci_lo`, `ci_hi`) menunjukkan arah yang sama
 | no_proxy | LR: isotonic - raw | pr_auc | -0.009 | -0.015 | -0.005 | `results/no_proxy/paired_deltas.csv` |
 | no_proxy | RF: isotonic - raw | pr_auc | -0.011 | -0.015 | -0.007 | `results/no_proxy/paired_deltas.csv` |
 
-Jadi kalibrasi membuat angka probabilitas lebih rapi, tetapi tidak otomatis membuat daftar prioritas pasien lebih baik. Isotonik justru menurunkan PR-AUC pada keempat baris di atas (`results/full/paired_deltas.csv` dan `results/no_proxy/paired_deltas.csv`, kolom `delta` untuk `isotonic - raw` dan metrik `pr_auc`).
+Jadi kalibrasi membuat angka probabilitas lebih rapi, tetapi tidak otomatis membuat daftar prioritas pasien lebih baik. Isotonik justru menurunkan PR-AUC pada keempat baris isotonic dikurangi raw di atas (`results/full/paired_deltas.csv` dan `results/no_proxy/paired_deltas.csv`, kolom `delta` untuk `isotonic - raw` dan metrik `pr_auc`).
 
 ## Efek threshold F1
 
@@ -77,7 +77,7 @@ Threshold 0,5 hampir tidak menandai pasien, sedangkan threshold yang dipilih den
 | no_proxy | LR | 0.069 | 0.394 | 0.038 | 0.689 | 0.454 | `results/no_proxy/metrics_primary.csv` (variant=raw) |
 | no_proxy | RF | 0.000 | 0.408 | 0.000 | 0.884 | 0.605 | `results/no_proxy/metrics_primary.csv` (variant=raw) |
 
-Nilai ambang yang dipilih untuk skor `raw` adalah: LR `full` 0.206, RF `full` 0.226, LR `no_proxy` 0.212, dan RF `no_proxy` 0.182 (`results/full/thresholds.csv` dan `results/no_proxy/thresholds.csv`, kolom `threshold`, baris `rule=thrF1`). Sementara itu, `outreach_rate` pada ambang kapasitas (`thrCap`) adalah 0.106 dan 0.119 untuk LR dan RF `full`, serta 0.103 dan 0.132 untuk LR dan RF `no_proxy` (`results/full/metrics_primary.csv` dan `results/no_proxy/metrics_primary.csv`, kolom `thrCap:outreach_rate`). Artinya aturan F1 menaikkan recall, tetapi jumlah janji temu yang ditandai tidak sesuai dengan kapasitas pengingat yang diuji; aturan yang mengikuti kapasitas mendekati angka pada nama metrik `precision@10`.
+Nilai ambang yang dipilih untuk skor `raw` adalah: LR `full` 0.206, RF `full` 0.226, LR `no_proxy` 0.212, dan RF `no_proxy` 0.182 (`results/full/thresholds.csv` dan `results/no_proxy/thresholds.csv`, kolom `threshold`, baris `rule=thrF1`). Sementara itu, `outreach_rate` pada ambang kapasitas (`thrCap`) adalah 0.106 dan 0.119 untuk LR dan RF `full`, serta 0.103 dan 0.132 untuk LR dan RF `no_proxy` (`results/full/metrics_primary.csv` dan `results/no_proxy/metrics_primary.csv`, kolom `thrCap:outreach_rate`). Artinya aturan F1 menaikkan recall, tetapi jumlah janji temu yang ditandai tidak sesuai dengan kapasitas pengingat yang diuji; aturan yang mengikuti kapasitas menandai sekitar 10 sampai 13% janji temu (0.103 sampai 0.132 pada `thrCap:outreach_rate`), mendekati target 10% pada nama metrik `precision@10` tetapi tidak persis.
 
 ## Batasan yang perlu diingat
 
