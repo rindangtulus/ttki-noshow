@@ -44,7 +44,7 @@ Ini menguji anti-leakage, split, kalibrator, metrik, dan smoke test memakai data
 
 ## 5. Unduh CSV Kaggle
 
-Dataset dan cara unduhnya ada di `data/README.md:1-24` dan `README.md:20-23`:
+Dataset dan cara unduhnya ada di `data/README.md:18-23`:
 
 ```bash
 pip install kaggle
@@ -53,9 +53,11 @@ kaggle datasets download -d joniarroba/noshowappointments -p data/raw --unzip
 
 Opsi lain: unduh dari browser lalu letakkan berkas di `data/raw/` (`data/README.md:22`). Kaggle CLI memakai `~/.kaggle/kaggle.json`, dan berkas itu **jangan pernah di-commit** (`data/README.md:19`, `README.md:111`).
 
-Nama berkas yang dipakai perintah di bawah adalah `KaggleV2-May-2016.csv` (`README.md:22`, `data/README.md:49`). Nilai ukuran dan SHA-256 yang diharapkan tercatat di `data/README.md:11` dan `data/README.md:50`. Di Linux/macOS, `data/README.md:23` memberi contoh `sha256sum data/raw/*.csv`; di Windows gunakan alat checksum yang tersedia, lalu bandingkan dengan nilai di `data/README.md` tanpa mengubah berkas itu.
+Nama berkas yang dipakai perintah di bawah adalah `KaggleV2-May-2016.csv` (`README.md:22`, `data/README.md:49`). Nilai ukuran dan SHA-256 yang diharapkan tercatat di `data/README.md:11` dan `data/README.md:50`. Di Linux/macOS, `data/README.md:23` memberi contoh `sha256sum data/raw/*.csv`; di Windows (PowerShell) pakai `Get-FileHash data/raw/KaggleV2-May-2016.csv -Algorithm SHA256`. Bandingkan hasilnya dengan nilai di `data/README.md` tanpa mengubah berkas itu.
 
 ## 6. Jalankan eksperimen
+
+> **Peringatan:** secara bawaan `src.run_experiments` menulis ke `results/` (opsi `--out`, default `results`; `src/run_experiments.py:183`). Menjalankannya **menimpa** `results/full/` dan `results/no_proxy/` yang ter-commit, yaitu dasar angka naskah. Untuk sekadar mencoba, arahkan keluaran ke folder lain, mis. tambahkan `--out percobaan`, dan jangan commit folder itu.
 
 Dari folder repo, jalankan dua skenario:
 
@@ -72,13 +74,15 @@ Untuk uji cepat, `README.md:56` memberi contoh:
 python -m src.run_experiments --data data/raw/KaggleV2-May-2016.csv --n-boot 50 --rf-seeds 1
 ```
 
-Walau demikian, angka yang dipakai di paper harus berasal dari Jalankan penuh seperti di `README.md:7` dan `README.md:13`. Waktu jalan normalnya beberapa menit karena RF lima seed dan bootstrap 500 kali (`README.md:56`, `README.md:70`).
+Walau demikian, angka yang dipakai di paper harus berasal dari run penuh seperti di `README.md:7` dan `README.md:13`. Waktu jalan normalnya beberapa menit karena RF lima seed dan bootstrap 500 kali (`README.md:56`, `README.md:70`).
 
 ## 7. Buat gambar
 
 ```bash
 python -m src.make_figures --results results/full --out figures
 ```
+
+> **Peringatan:** `--out figures` menimpa gambar di `figures/` yang ter-commit. Untuk percobaan, pakai folder lain (opsi `--out`, default `figures`; `src/make_figures.py:95`), mis. `--results percobaan/full --out figures_percobaan`, dan jangan commit hasilnya.
 
 Perintah ini ada di `README.md:54` dan `src/make_figures.py:1-4`. Skrip membaca `test_predictions.csv`, `metrics_primary.csv`, dan `daily_summary.csv` dari folder hasil yang dipilih (`src/make_figures.py:99-102`), lalu menulis `fig_reliability.png`, `fig_precision_at_k.png`, `fig_capacity_deviation.png`, dan `fig_daily_no_show_rate.png` (`src/make_figures.py:47`, `src/make_figures.py:68`, `src/make_figures.py:80`, `src/make_figures.py:89`, `README.md:39`).
 
