@@ -4,6 +4,8 @@ import re
 import subprocess
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = re.compile(r"[A-Za-z0-9_.<>/-]+")
 PARENTHETICAL = re.compile(r"\([^)]*\)")
@@ -32,9 +34,12 @@ def structure_lines() -> list[str]:
 
 
 def tracked_files() -> list[Path]:
-    output = subprocess.run(
-        ["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True
-    ).stdout
+    try:
+        output = subprocess.run(
+            ["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True
+        ).stdout
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        pytest.skip("bukan repo git (mis. unduhan ZIP) atau git tidak terpasang")
     return [Path(name) for name in output.splitlines() if name]
 
 
@@ -129,6 +134,10 @@ def test_tidak_ada_kaggle_json_yang_dilacak_git() -> None:
     ]
 
 
+# Asumsi format README.md: bagian "## Struktur" berisi blok kode dengan satu entri per
+# baris (path/direktori di awal baris, keterangan setelah tanda "=", "#" atau tanda kurung),
+# dan baris tanpa token direktori mengikuti direktori terakhir. Kalau format itu
+# diubah, tes ini bisa gagal walau berkasnya ada, atau lolos walau ada yang hilang.
 def test_berkas_pada_bagian_struktur_readme_ada() -> None:
     missing = sorted(str(ROOT / path) for path in structure_paths() if not (ROOT / path).exists())
     assert not missing, f"Berkas pada bagian Struktur README tidak ada: {missing}"
